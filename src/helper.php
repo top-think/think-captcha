@@ -24,7 +24,7 @@
  */
 function captcha($id = "", $config = [])
 {
-    $captcha = new \think\Captcha($config);
+    $captcha = new \think\captcha\Captcha($config);
     $captcha->entry($id);
 }
 

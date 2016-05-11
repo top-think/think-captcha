@@ -2,7 +2,7 @@
 thinkphp5 验证码类库
 
 ## 安装
-> composer install topthink/think-captcha
+> composer require topthink/think-captcha
 
 
 ##使用

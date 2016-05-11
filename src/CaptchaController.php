@@ -18,8 +18,6 @@ class CaptchaController extends Controller
 {
     public function index($id = "")
     {
-        $captcha = new Captcha((array)Config::get('captcha'));
-        $captcha->entry($id);
-        exit;
+        captcha($id, (array)Config::get('captcha'));
     }
 }

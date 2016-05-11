@@ -12,8 +12,52 @@
 \think\Route::get('captcha/[:id]', ["\\think\\captcha\\CaptchaController", 'index']);
 
 \think\Validate::extend('captcha', function ($value, $id = "") {
-    $captcha = new \think\captcha\Captcha((array)\think\Config::get('captcha'));
-    return $captcha->check($value, $id);
+    return captcha_check($value, $id, (array)\think\Config::get('captcha'));
 });
 
 \think\Validate::setTypeMsg('captcha', '验证码错误!');
+
+
+/**
+ * @param string $id
+ * @param array  $config
+ */
+function captcha($id = "", $config = [])
+{
+    $captcha = new \think\Captcha($config);
+    $captcha->entry($id);
+}
+
+
+/**
+ * @param $id
+ * @return string
+ */
+function captcha_src($id = "")
+{
+    return \think\Url::build('/captcha' . $id ? "/{$id}" : '');
+}
+
+
+/**
+ * @param $id
+ * @return mixed
+ */
+function captcha_img($id = "")
+{
+    return '<img src="' . captcha_src($id) . '" alt="captcha" />';
+}
+
+
+/**
+ * @param        $value
+ * @param string $id
+ * @param array  $config
+ * @return bool
+ */
+function captcha_check($value, $id = "", $config = [])
+{
+    $captcha = new \think\captcha\Captcha($config);
+    return $captcha->check($value, $id);
+}
+

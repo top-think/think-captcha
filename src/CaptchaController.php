@@ -12,9 +12,8 @@
 namespace think\captcha;
 
 use think\Config;
-use think\Controller;
 
-class CaptchaController extends Controller
+class CaptchaController
 {
     public function index($id = "")
     {

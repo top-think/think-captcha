@@ -98,7 +98,7 @@ class Captcha
             return false;
         }
         // session 过期
-        if (NOW_TIME - $secode['verify_time'] > $this->expire) {
+        if (time() - $secode['verify_time'] > $this->expire) {
             Session::delete($key);
             return false;
         }
@@ -182,7 +182,7 @@ class Captcha
         $code = $this->authcode(strtoupper(implode('', $code)));
         $secode = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
-        $secode['verify_time'] = NOW_TIME; // 验证码创建时间
+        $secode['verify_time'] = time(); // 验证码创建时间
         Session::set($key . $id, $secode);
 
         header('Cache-Control: private, max-age=0, no-store, no-cache, must-revalidate');

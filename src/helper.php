@@ -9,7 +9,7 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-\think\Route::get('captcha/[:id]', ["\\think\\captcha\\CaptchaController", 'index']);
+\think\Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
 
 \think\Validate::extend('captcha', function ($value, $id = "") {
     return captcha_check($value, $id, (array)\think\Config::get('captcha'));

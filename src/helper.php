@@ -21,11 +21,12 @@
 /**
  * @param string $id
  * @param array  $config
+ * @return \think\Response
  */
 function captcha($id = "", $config = [])
 {
     $captcha = new \think\captcha\Captcha($config);
-    $captcha->entry($id);
+    return $captcha->entry($id);
 }
 
 

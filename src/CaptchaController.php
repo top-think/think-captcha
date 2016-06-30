@@ -17,6 +17,7 @@ class CaptchaController
 {
     public function index($id = "")
     {
-        captcha($id, (array)Config::get('captcha'));
+        $captcha = new Captcha((array)Config::get('captcha'));
+        return $captcha->entry($id);
     }
 }

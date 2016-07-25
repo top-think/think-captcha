@@ -163,7 +163,7 @@ class Captcha
         $this->fontttf = $ttfPath . $this->fontttf;
 
         if ($this->useImgBg) {
-            $this->_background();
+            $this->background();
         }
 
         if ($this->useNoise) {
@@ -288,7 +288,7 @@ class Captcha
      * 绘制背景图片
      * 注：如果验证码输出图片比较大，将占用比较多的系统资源
      */
-    private function _background()
+    private function background()
     {
         $path = __DIR__ . '/../assets/bgs/';
         $dir  = dir($path);

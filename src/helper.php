@@ -34,7 +34,9 @@ function captcha($id = "", $config = [])
  */
 function captcha_src($id = "")
 {
-    return \think\Url::build('/captcha' . ($id ? "/{$id}" : ''));
+    return \think\Url::build('\think\captcha\CaptchaController@index', [
+        'id' => $id,
+    ]);
 }
 
 /**

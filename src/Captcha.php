@@ -12,6 +12,7 @@
 namespace think\captcha;
 
 use think\Session;
+use think\Response;
 
 class Captcha
 {
@@ -206,7 +207,7 @@ class Captcha
         $content = ob_get_clean();
         imagedestroy($this->im);
 
-        return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        return Response::create($content, '', 200, ['Content-Length' => strlen($content)])->contentType('image/png');
     }
 
     /**

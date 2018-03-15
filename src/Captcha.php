@@ -50,6 +50,7 @@ class Captcha
 
     private $im    = null; // 验证码图片实例
     private $color = null; // 验证码字体颜色
+    private $captcha_code = null; // 明文验证码
 
     /**
      * 架构方法 设置参数
@@ -192,6 +193,9 @@ class Captcha
             }
         }
 
+        // 保存原始明文验证码
+        $this->captcha_code = strtoupper(implode('', $code));
+
         // 保存验证码
         $key                   = $this->authcode($this->seKey);
         $code                  = $this->authcode(strtoupper(implode('', $code)));
@@ -209,6 +213,17 @@ class Captcha
         return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
     }
 
+    /**
+     * 获取明文验证码
+     * @author  kangkst <kst157521@163.com>
+     * @since   1.0.0
+     * @date    2018-03-15 10:24:53
+     * @return  null
+     */
+    public function getCaptchaCode()
+    {
+        return $this->captcha_code;
+    }
     /**
      * 画一条由两条连在一起构成的随机正弦函数曲线作干扰线(你可以改成更帅的曲线函数)
      *

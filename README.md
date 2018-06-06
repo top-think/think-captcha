@@ -5,9 +5,9 @@ thinkphp5 验证码类库
 > composer require topthink/think-captcha
 
 
-##使用
+## 使用
 
-###模板里输出验证码
+### 模板里输出验证码
 
 ~~~
 <div>{:captcha_img()}</div>
@@ -17,6 +17,11 @@ thinkphp5 验证码类库
 <div><img src="{:captcha_src()}" alt="captcha" /></div>
 ~~~
 > 上面两种的最终效果是一样的
+
+或者带有点击图片自动更换验证码的功能
+~~~
+<div>{:captcha_img_with_replacement()}</div>
+~~~
 
 ### 控制器里验证
 使用TP5的内置验证功能即可

@@ -51,6 +51,19 @@ function captcha_img($id = '')
 
 
 /**
+ * @param string $id
+ * @param string $element 验证码HTML元素ID
+ * @return string
+ */
+function captcha_img_with_replacement($id = '', $element = 'think-captcha')
+{
+    return '<img src="' . captcha_src($id) . '" alt="' . $element .
+        '" id="think-captcha" onclick="document.getElementById("' . $element . '").src="' .
+        captcha_src($id) . '"+Math.random()' . '/>';
+}
+
+
+/**
  * @param        $value
  * @param string $id
  * @param array  $config

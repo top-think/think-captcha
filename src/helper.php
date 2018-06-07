@@ -9,13 +9,13 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-\think\Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
+think\facade\Route::rule('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
 
-\think\Validate::extend('captcha', function ($value, $id = '') {
+think\facade\Validate::extend('captcha', function ($value, $id = '') {
     return captcha_check($value, $id);
 });
 
-\think\Validate::setTypeMsg('captcha', ':attribute错误!');
+think\facade\Validate::setTypeMsg('captcha', ':attribute错误!');
 
 
 /**
@@ -36,7 +36,7 @@ function captcha($id = '', $config = [])
  */
 function captcha_src($id = '')
 {
-    return \think\Url::build('/captcha' . ($id ? "/{$id}" : ''));
+    return think\facade\Url::build('/captcha' . ($id ? "/{$id}" : ''));
 }
 
 

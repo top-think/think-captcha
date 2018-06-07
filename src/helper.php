@@ -57,9 +57,8 @@ function captcha_img($id = '')
  */
 function captcha_img_with_replacement($id = '', $element = 'think-captcha')
 {
-    return '<img src="' . captcha_src($id) . '" alt="' . $element .
-        '" id="think-captcha" onclick="document.getElementById("' . $element . '").src="' .
-        captcha_src($id) . '"+Math.random()' . '/>';
+    return '<img src="' . captcha_src($id) . '" alt="captcha" id="' . $element . '" onclick="document.getElementById("'
+        . $element . '").src="' . captcha_src($id) . '"+Math.random()' . '/>';
 }
 
 

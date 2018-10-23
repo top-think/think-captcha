@@ -70,6 +70,6 @@ function captcha_img_with_replacement($id = '', $element = 'think-captcha')
  */
 function captcha_check($value, $id = '')
 {
-    $captcha = new \think\captcha\Captcha((array)\think\Config::get('captcha'));
+    $captcha = new \think\captcha\Captcha((array)\think\facade\Config::get('captcha'));
     return $captcha->check($value, $id);
 }

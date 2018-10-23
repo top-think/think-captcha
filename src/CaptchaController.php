@@ -11,7 +11,7 @@
 
 namespace think\captcha;
 
-use think\Config;
+use think\facade\Config;
 
 class CaptchaController
 {

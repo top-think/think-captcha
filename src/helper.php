@@ -9,13 +9,11 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
-
-Validate::extend('captcha', function ($value, $id = '') {
+think\facade\Validate::extend('captcha', function ($value, $id = '') {
     return captcha_check($value, $id);
 });
 
-Validate::setTypeMsg('captcha', ':attribute错误!');
+think\facade\Validate::setTypeMsg('captcha', ':attribute错误!');
 
 /**
  * @param string $id
@@ -34,7 +32,7 @@ function captcha($id = '', $config = [])
  */
 function captcha_src($id = '')
 {
-    return Url::build('/captcha' . ($id ? "/{$id}" : ''));
+    return think\facade\Url::build('/captcha/get_validate_code/' . ($id ? "/{$id}" : ''),[],'','api');
 }
 
 /**
@@ -47,6 +45,16 @@ function captcha_img($id = '')
 }
 
 /**
+ * @param string $id
+ * @param string $element 验证码HTML元素ID
+ * @return string
+ */
+function captcha_img_with_replacement($id = '', $element = 'alimx-captcha')
+{
+    return '<img src="' . captcha_src($id) . '" alt="captcha" class="' . $element . '" onclick="this.src=\''.captcha_src($id).'?\' + Math.random();" />';
+}
+
+/**
  * @param        $value
  * @param string $id
  * @param array  $config
@@ -54,6 +62,6 @@ function captcha_img($id = '')
  */
 function captcha_check($value, $id = '')
 {
-    $captcha = new \think\captcha\Captcha((array) Config::pull('captcha'));
+    $captcha = new \think\captcha\Captcha((array) \think\facade\Config::pull('captcha'));
     return $captcha->check($value, $id);
 }

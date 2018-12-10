@@ -4,6 +4,8 @@ thinkphp5.2 验证码类库
 ## 安装
 > composer require topthink/think-captcha
 
+## 在您的项目路由文件里添加路由支持
+> Route::get('/captcha/get_validate_code/[:id]', "\\think\\captcha\\CaptchaController@index");
 
 ##使用
 

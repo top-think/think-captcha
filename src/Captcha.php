@@ -8,15 +8,13 @@
 // +----------------------------------------------------------------------
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
-
 namespace think\captcha;
-
 use think\facade\Session;
 
 class Captcha
 {
     protected $config = [
-        'seKey'    => 'ThinkPHP.CN',
+        'seKey'    => 'Wmnrj.Com',
         // 验证码加密密钥
         'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
         // 验证码字符集合
@@ -106,20 +104,22 @@ class Captcha
      */
     public function check($code, $id = '')
     {
+
         $key = $this->authcode($this->seKey) . $id;
+
         // 验证码不能为空
-        $secode = Session::get($key, '');
+        $secode = Session::get($key);
         if (empty($code) || empty($secode)) {
             return false;
         }
         // session 过期
         if (time() - $secode['verify_time'] > $this->expire) {
-            Session::delete($key, '');
+            Session::delete($key);
             return false;
         }
 
         if ($this->authcode(strtoupper($code)) == $secode['verify_code']) {
-            $this->reset && Session::delete($key, '');
+            $this->reset && Session::delete($key);
             return true;
         }
 
@@ -158,7 +158,9 @@ class Captcha
                 }
             }
             $dir->close();
-            $this->fontttf = $ttfs[array_rand($ttfs)];
+            $this->fontttf = $ttfs[1];
+        }else{
+            $this->fontttf = $this->fontttf.'.ttf';
         }
         $this->fontttf = $ttfPath . $this->fontttf;
 
@@ -187,8 +189,8 @@ class Captcha
         } else {
             for ($i = 0; $i < $this->length; $i++) {
                 $code[$i] = $this->codeSet[mt_rand(0, strlen($this->codeSet) - 1)];
-                $codeNX += mt_rand($this->fontSize * 1.2, $this->fontSize * 1.6);
-                imagettftext($this->im, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.6, $this->color, $this->fontttf, $code[$i]);
+                $codeNX += $this->fontSize * 1.3;
+                imagettftext($this->im, $this->fontSize, 0, $codeNX, $this->fontSize * 1.4, $this->color, $this->fontttf, $code[$i]);
             }
         }
 
@@ -196,9 +198,9 @@ class Captcha
         $key                   = $this->authcode($this->seKey);
         $code                  = $this->authcode(strtoupper(implode('', $code)));
         $secode                = [];
-        $secode['verify_code'] = $code; // 把校验码保存到session
-        $secode['verify_time'] = time(); // 验证码创建时间
-        Session::set($key . $id, $secode, '');
+        $secode['verify_code'] = $code;
+        $secode['verify_time'] = time();
+        Session::set($key . $id, $secode);
 
         ob_start();
         // 输出图像

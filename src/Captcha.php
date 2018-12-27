@@ -1,22 +1,19 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006-2015 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: yunwuxin <448901948@qq.com>
-// +----------------------------------------------------------------------
+/**
+ * Created by PhpStorm.
+ * User: john
+ * Date: 2018/12/17
+ * Time: 20:50
+ */
 
-namespace think\captcha;
+namespace xuezhitech\captcha;
 
-use think\facade\Session;
+use think\facade\Cache;
 
 class Captcha
 {
     protected $config = [
-        'seKey'    => 'ThinkPHP.CN',
+        //'seKey'    => 'ThinkPHP.CN',
         // 验证码加密密钥
         'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
         // 验证码字符集合
@@ -38,7 +35,7 @@ class Captcha
         // 验证码图片高度
         'imageW'   => 0,
         // 验证码图片宽度
-        'length'   => 5,
+        'length'   => 4,
         // 验证码位数
         'fontttf'  => '',
         // 验证码字体，不设置随机获取
@@ -104,25 +101,23 @@ class Captcha
      * @param string $id   验证码标识
      * @return bool 用户验证码是否正确
      */
-    public function check($code, $id = '')
+    public function check($captcha_key,$code, $id = '')
     {
-        $key = $this->authcode($this->seKey) . $id;
+        //$key = $code;//$this->authcode($this->seKey) . $id;
         // 验证码不能为空
-        $secode = Session::get($key, '');
-        if (empty($code) || empty($secode)) {
+        $secode = Cache::get($captcha_key);//Session::get($key, '');
+        if ( empty($captcha_key) || empty($secode)) {
             return false;
         }
         // session 过期
         if (time() - $secode['verify_time'] > $this->expire) {
-            Session::delete($key, '');
+            Cache::rm($key);//Session::delete($key, '');
             return false;
         }
-
-        if ($this->authcode(strtoupper($code)) == $secode['verify_code']) {
-            $this->reset && Session::delete($key, '');
+        if (strtoupper($code) == $secode['verify_code']) {
+            $this->reset && Cache::rm($key);//Session::delete($key, '');
             return true;
         }
-
         return false;
     }
 
@@ -143,7 +138,6 @@ class Captcha
         $this->im = imagecreate($this->imageW, $this->imageH);
         // 设置背景
         imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
-
         // 验证码字体随机颜色
         $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
         // 验证码使用随机字体
@@ -193,20 +187,20 @@ class Captcha
         }
 
         // 保存验证码
-        $key                   = $this->authcode($this->seKey);
-        $code                  = $this->authcode(strtoupper(implode('', $code)));
+        $key                   = md5(uniqid());//生成唯一的id $this->authcode($this->seKey);
+        $code                  = strtoupper(implode('', $code));//$this->authcode(strtoupper(implode('', $code)));
         $secode                = [];
-        $secode['verify_code'] = $code; // 把校验码保存到session
-        $secode['verify_time'] = time(); // 验证码创建时间
-        Session::set($key . $id, $secode, '');
+        $secode['verify_code'] = $code;     //把校验码保存到cache
+        $secode['verify_time'] = time();    //验证码创建时间
+        Cache::set($key,$secode,$this->config['expire']);
 
         ob_start();
         // 输出图像
         imagepng($this->im);
         $content = ob_get_clean();
         imagedestroy($this->im);
-
-        return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        $content = 'data:image/png;base64,'.base64_encode($content);
+        return ['captcha_key'=>$key,'src'=>$content];
     }
 
     /**
@@ -310,11 +304,4 @@ class Captcha
         @imagedestroy($bgImage);
     }
 
-    /* 加密验证码 */
-    private function authcode($str)
-    {
-        $key = substr(md5($this->seKey), 5, 8);
-        $str = substr(md5($str), 8, 10);
-        return md5($key . $str);
-    }
 }

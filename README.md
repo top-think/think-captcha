@@ -1,13 +1,9 @@
-# think-captcha
-thinkphp5.1 验证码类库
+# xuezhitech\captcha
+thinkphp5.1 验证码类库 适用于接口调用
 
-## 安装
-> composer require topthink/think-captcha
-
-
-##使用
-
-### 控制器里验证
+## 控制器里使用
+~~~
+use xuezhitech\captcha\Captcha;
 初始化
 $captcha = new Captcha();
 return $captcha->entry();
@@ -22,6 +18,7 @@ $captcha = new Captcha();
 if( !$captcha->check($captcha_key,$code) ){
     //验证失败
 }
+~~~
 
 
 

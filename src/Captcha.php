@@ -103,19 +103,22 @@ class Captcha
      */
     public function check($captcha_key,$code, $id = '')
     {
-        //$key = $code;//$this->authcode($this->seKey) . $id;
         // 验证码不能为空
-        $secode = Cache::get($captcha_key);//Session::get($key, '');
-        if ( empty($captcha_key) || empty($secode)) {
+        if ( empty($captcha_key) ){
             return false;
+        }else{
+            $secode = Cache::get($captcha_key);
+            if ( empty($secode)) {
+                return false;
+            }
         }
         // session 过期
         if (time() - $secode['verify_time'] > $this->expire) {
-            Cache::rm($key);//Session::delete($key, '');
+            Cache::rm($captcha_key);//Session::delete($key, '');
             return false;
         }
         if (strtoupper($code) == $secode['verify_code']) {
-            $this->reset && Cache::rm($key);//Session::delete($key, '');
+            $this->reset && Cache::rm($captcha_key);//Session::delete($key, '');
             return true;
         }
         return false;

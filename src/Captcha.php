@@ -48,7 +48,7 @@ class Captcha
         // 背景颜色
         'reset'    => true,
         // 验证成功后是否重置
-        'base64'   => true,
+        'base64'   => false,
         // 返回base64编码图片
     ];
 

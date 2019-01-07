@@ -12,6 +12,8 @@
 namespace think\captcha;
 
 use think\facade\Session;
+use think\facade\Cache;
+use think\facade\App;
 
 class Captcha
 {
@@ -38,7 +40,7 @@ class Captcha
         // 验证码图片高度
         'imageW'   => 0,
         // 验证码图片宽度
-        'length'   => 5,
+        'length'   => 4,
         // 验证码位数
         'fontttf'  => '',
         // 验证码字体，不设置随机获取
@@ -108,18 +110,21 @@ class Captcha
     {
         $key = $this->authcode($this->seKey) . $id;
         // 验证码不能为空
-        $secode = Session::get($key, '');
+        // $secode = Session::get($key, '');
+        $secode = Cache::get($key);
         if (empty($code) || empty($secode)) {
             return false;
         }
         // session 过期
         if (time() - $secode['verify_time'] > $this->expire) {
-            Session::delete($key, '');
+            // Session::delete($key, '');
+            Cache::rm($key);
             return false;
         }
 
         if ($this->authcode(strtoupper($code)) == $secode['verify_code']) {
-            $this->reset && Session::delete($key, '');
+            // $this->reset && Session::delete($key, '');
+            $this->reset && Cache::rm($key);
             return true;
         }
 
@@ -198,7 +203,20 @@ class Captcha
         $secode                = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
         $secode['verify_time'] = time(); // 验证码创建时间
-        Session::set($key . $id, $secode, '');
+        // Session::set($key . $id, $secode, '');
+        //保存验证码到缓存
+        $options = [
+            // 缓存类型为File
+            'type'  =>  'File',
+            // 缓存有效期为永久有效
+            'expire'=>  0,
+            //缓存前缀
+            'prefix'=>  'think',
+            // 指定缓存目录
+            'path'  =>  App::getAppPath().'runtime/cache/',
+        ];
+        Cache::connect($options);
+        Cache::set($key . $id, $secode, $this->expire);
 
         ob_start();
         // 输出图像
@@ -206,7 +224,9 @@ class Captcha
         $content = ob_get_clean();
         imagedestroy($this->im);
 
-        return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        // return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        $content = 'data:image/png;base64,'.base64_encode($content);
+        return response($content, 200, ['Content-Length' => strlen($content)])->contentType('text/plain');
     }
 
     /**

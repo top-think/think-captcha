@@ -1,10 +1,14 @@
 {
-    "name": "topthink/think-captcha",
-    "description": "captcha package for thinkphp5",
+    "name": "rise-worlds/think-cache-captcha",
+    "description": "captcha package for thinkphp5, use cache",
     "authors": [
         {
             "name": "yunwuxin",
             "email": "448901948@qq.com"
+        },
+        {
+            "name": "rise",
+            "email": "rise.worlds@outlook.com"
         }
     ],
     "license": "Apache-2.0",

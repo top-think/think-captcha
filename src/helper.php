@@ -9,6 +9,11 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
+use think\facade\Config;
+use think\facade\Route;
+use think\facade\Url;
+use think\Validate;
+
 Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
 
 Validate::extend('captcha', function ($value, $id = '') {
@@ -19,12 +24,11 @@ Validate::setTypeMsg('captcha', ':attribute错误!');
 
 /**
  * @param string $id
- * @param array  $config
  * @return \think\Response
  */
-function captcha($id = '', $config = [])
+function captcha($id = '')
 {
-    $captcha = new \think\captcha\Captcha($config);
+    $captcha = new \think\captcha\Captcha(Config::get('captcha'));
     return $captcha->entry($id);
 }
 
@@ -39,7 +43,7 @@ function captcha_src($id = '')
 
 /**
  * @param $id
- * @return mixed
+ * @return string
  */
 function captcha_img($id = '')
 {
@@ -47,13 +51,12 @@ function captcha_img($id = '')
 }
 
 /**
- * @param        $value
+ * @param string $value
  * @param string $id
- * @param array  $config
  * @return bool
  */
 function captcha_check($value, $id = '')
 {
-    $captcha = new \think\captcha\Captcha((array) Config::pull('captcha'));
+    $captcha = new \think\captcha\Captcha(Config::get('captcha'));
     return $captcha->check($value, $id);
 }

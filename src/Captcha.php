@@ -104,22 +104,22 @@ class Captcha
      * @param string $id   验证码标识
      * @return bool 用户验证码是否正确
      */
-    public function check($code, $id = '')
+    public function check(string $code, $id = '')
     {
         $key = $this->authcode($this->seKey) . $id;
         // 验证码不能为空
-        $secode = Session::get($key, '');
+        $secode = Session::get($key);
         if (empty($code) || empty($secode)) {
             return false;
         }
         // session 过期
         if (time() - $secode['verify_time'] > $this->expire) {
-            Session::delete($key, '');
+            Session::delete($key);
             return false;
         }
 
         if ($this->authcode(strtoupper($code)) == $secode['verify_code']) {
-            $this->reset && Session::delete($key, '');
+            $this->reset && Session::delete($key);
             return true;
         }
 
@@ -198,7 +198,7 @@ class Captcha
         $secode                = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
         $secode['verify_time'] = time(); // 验证码创建时间
-        Session::set($key . $id, $secode, '');
+        Session::set($key . $id, $secode);
 
         ob_start();
         // 输出图像

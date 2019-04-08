@@ -105,7 +105,7 @@ class Captcha
 
             $x   = random_int(10, 30);
             $y   = random_int(1, 9);
-            $bag = "$x + $y = ";
+            $bag = "{$x} + {$y} = ";
             $key = $x + $y;
             $key .= '';
         } else {
@@ -119,7 +119,7 @@ class Captcha
                 $bag .= $characters[rand(0, count($characters) - 1)];
             }
 
-            $key = $bag;
+            $key = mb_strtolower($bag, 'UTF-8');
         }
 
         $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 10]);
@@ -147,6 +147,8 @@ class Captcha
         }
 
         $key = $this->session->get('captcha.key');
+
+        $code = mb_strtolower($code, 'UTF-8');
 
         $res = password_verify($code, $key);
 
@@ -213,7 +215,7 @@ class Captcha
         }
 
         // 绘验证码
-        $text = $generator['value']; // 验证码
+        $text = $this->useZh ? preg_split('/(?<!^)(?!$)/u', $generator['value']) : str_split($generator['value']); // 验证码
 
         foreach ($text as $index => $code) {
 

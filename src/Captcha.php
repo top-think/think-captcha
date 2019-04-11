@@ -11,6 +11,7 @@
 
 namespace think\captcha;
 
+use think\facade\Config;
 use think\facade\Session;
 
 class Captcha
@@ -198,7 +199,7 @@ class Captcha
         $secode                = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
         $secode['verify_time'] = time(); // 验证码创建时间
-        Session::set($key . $id, $secode, '');
+        Session::set($key . $id, $secode, Config::pull('session.prefix'));
 
         ob_start();
         // 输出图像

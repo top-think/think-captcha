@@ -185,7 +185,7 @@ class Captcha
         $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
 
         // 验证码使用随机字体
-        $ttfPath = __DIR__ . '/../assets/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
+        $ttfPath = __DIR__ .DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR . ($this->useZh ? 'zhttfs' : 'ttfs') . DIRECTORY_SEPARATOR;
 
         if (empty($this->fontttf)) {
             $dir  = dir($ttfPath);
@@ -200,6 +200,9 @@ class Captcha
         }
 
         $fontttf = $ttfPath . $this->fontttf;
+        if(preg_match('/[\x{4e00}-\x{9fa5}]/u', $this->fontttf) > 0){
+            $this->fontttf = iconv('UTF-8','GBK',$this->fontttf);
+        }
 
         if ($this->useImgBg) {
             $this->background();

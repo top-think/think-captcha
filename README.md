@@ -1,5 +1,6 @@
 # think-captcha
-thinkphp5.2 验证码类库
+
+thinkphp6 验证码类库
 
 ## 安装
 > composer require topthink/think-captcha
@@ -20,6 +21,7 @@ public function captcha($id = '')
 ~~~
 然后注册对应的路由来输出验证码
 
+
 ### 模板里输出验证码
 
 首先要在你应用的路由定义文件中，注册一个验证码路由规则。
@@ -37,6 +39,7 @@ public function captcha($id = '')
 <div><img src="{:captcha_src()}" alt="captcha" /></div>
 ~~~
 > 上面两种的最终效果是一样的
+
 
 ### 控制器里验证
 

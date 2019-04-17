@@ -14,8 +14,6 @@ class CaptchaService extends Service
 
         $validate->extend('captcha', function ($value) {
             return captcha_check($value);
-        });
-
-        $validate->setTypeMsg('captcha', ':attribute错误!');
+        }, ':attribute错误!');
     }
 }

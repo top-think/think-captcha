@@ -11,12 +11,13 @@
 
 use think\captcha\facade\Captcha;
 use think\facade\Route;
+use think\Response;
 
 /**
  * @param string $config
  * @return \think\Response
  */
-function captcha($config = null)
+function captcha($config = null): Response
 {
     return Captcha::create($config);
 }
@@ -25,7 +26,7 @@ function captcha($config = null)
  * @param $config
  * @return string
  */
-function captcha_src($config = null)
+function captcha_src($config = null): string
 {
     return Route::buildUrl('/captcha' . ($config ? "/{$config}" : ''));
 }
@@ -34,7 +35,7 @@ function captcha_src($config = null)
  * @param $id
  * @return string
  */
-function captcha_img($id = '')
+function captcha_img($id = ''): string
 {
     $src = captcha_src($id);
 
@@ -49,4 +50,3 @@ function captcha_check($value)
 {
     return Captcha::check($value);
 }
-

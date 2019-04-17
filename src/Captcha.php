@@ -76,7 +76,7 @@ class Captcha
      * 配置验证码
      * @param string|null $config
      */
-    protected function configure(string $config = null)
+    protected function configure(string $config = null): void
     {
         if (is_null($config)) {
             $config = $this->config->get('captcha', []);
@@ -96,7 +96,7 @@ class Captcha
      * @return array
      * @throws Exception
      */
-    protected function generate()
+    protected function generate(): array
     {
         $bag = '';
 
@@ -140,7 +140,7 @@ class Captcha
      * @param string $code 用户验证码
      * @return bool 用户验证码是否正确
      */
-    public function check(string $code)
+    public function check(string $code): bool
     {
         if (!$this->session->has('captcha')) {
             return false;
@@ -166,7 +166,7 @@ class Captcha
      * @param bool        $api
      * @return Response
      */
-    public function create(string $config = null, $api = false)
+    public function create(string $config = null, bool $api = false): Response
     {
         $this->configure($config);
 
@@ -247,7 +247,7 @@ class Captcha
      *        ω：决定周期（最小正周期T=2π/∣ω∣）
      *
      */
-    protected function writeCurve()
+    protected function writeCurve(): void
     {
         $px = $py = 0;
 
@@ -297,7 +297,7 @@ class Captcha
      * 画杂点
      * 往图片上写不同颜色的字母或数字
      */
-    protected function writeNoise()
+    protected function writeNoise(): void
     {
         $codeSet = '2345678abcdefhijkmnpqrstuvwxyz';
         for ($i = 0; $i < 10; $i++) {
@@ -314,7 +314,7 @@ class Captcha
      * 绘制背景图片
      * 注：如果验证码输出图片比较大，将占用比较多的系统资源
      */
-    protected function background()
+    protected function background(): void
     {
         $path = __DIR__ . '/../assets/bgs/';
         $dir  = dir($path);

@@ -8,12 +8,14 @@ use think\Validate;
 
 class CaptchaService extends Service
 {
-    public function boot(Route $route, Validate $validate)
+    public function boot(Route $route)
     {
         $route->get('captcha/[:config]', "\\think\\captcha\\CaptchaController@index");
 
-        $validate->extend('captcha', function ($value) {
-            return captcha_check($value);
-        }, ':attribute错误!');
+        Validate::maker(function ($validate) {
+            $validate->extend('captcha', function ($value) {
+                return captcha_check($value);
+            }, ':attribute错误!');
+        });
     }
 }

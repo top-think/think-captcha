@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 
 use think\captcha\facade\Captcha;
+use think\facade\Config;
+use think\facade\Request;
 use think\facade\Route;
 use think\Response;
 
@@ -28,7 +30,11 @@ function captcha($config = null): Response
  */
 function captcha_src($config = null): string
 {
-    return Route::buildUrl('/captcha' . ($config ? "/{$config}" : ''));
+    if (Config::get('app.auto_multi_app')){
+        return Route::buildUrl( '/' . Request::app() . '/captcha' . ($config ? "/{$config}" : ''));
+    }else{
+        return Route::buildUrl('/captcha' . ($config ? "/{$config}" : ''));
+    }
 }
 
 /**

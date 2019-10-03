@@ -39,7 +39,7 @@ function captcha_img($id = ''): string
 {
     $src = captcha_src($id);
 
-    return "<img src='{$src}' alt='captcha' onclick='this.src=\"{$src}?s=\"+Math.random();' />";
+    return "<img src='{$src}' alt='captcha' onclick='this.src=\"{$src}?\"+Math.random();' />";
 }
 
 /**

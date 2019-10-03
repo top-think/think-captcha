@@ -23,7 +23,10 @@
         "think": {
             "services": [
                 "think\\captcha\\CaptchaService"
-            ]
+            ],
+            "config":{
+                "captcha": "src/config.php"
+            }            
         }
     },
     "minimum-stability": "dev"

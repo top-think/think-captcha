@@ -23,6 +23,18 @@ function captcha($config = null): Response
 }
 
 /**
+ * API 调用
+ * @小小只^v^
+ * @param string $config
+ * @return array
+ * 
+ */
+function captcha_api($config = null): array
+{
+    return Captcha::create($config, true);
+}
+
+/**
  * @param $config
  * @return string
  */
@@ -38,7 +50,7 @@ function captcha_src($config = null): string
 function captcha_img($id = '', $domid = ''): string
 {
     $src = captcha_src($id);
-  
+
     $domid = empty($domid) ? $domid : "id='" . $domid . "'";
 
     return "<img src='{$src}' alt='captcha' " . $domid . " onclick='this.src=\"{$src}?\"+Math.random();' />";

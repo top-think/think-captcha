@@ -46,6 +46,8 @@ class Captcha
         // 背景颜色
         'reset'    => true,
         // 验证成功后是否重置
+        'base64'   => false,
+        // 返回base64编码图片
     ];
 
     private $im    = null; // 验证码图片实例
@@ -206,7 +208,12 @@ class Captcha
         $content = ob_get_clean();
         imagedestroy($this->im);
 
-        return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        if ($this->base64) {
+            $content = 'data:image/png;base64,'.base64_encode($content);
+            return response($content, 200, ['Content-Length' => strlen($content)])->contentType('text/plain');
+        } else {
+            return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
+        }
     }
 
     /**

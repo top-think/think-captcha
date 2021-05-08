@@ -2,7 +2,7 @@
 thinkphp5.1 验证码类库
 
 ## 安装
-> composer require rise-worlds/think-cache-captcha
+> composer require topthink/think-captcha
 
 
 ##使用

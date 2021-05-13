@@ -55,3 +55,21 @@ if(!captcha_check($captcha)){
  //验证失败
 };
 ~~~
+
+### 在前端分类API接口输出验证码
+
+在API接口方法中使用
+~~~
+use think\captcha\facade\Captcha;
+
+/**
+* @desc: 获取验证码
+* @return Response
+*/
+public function captcha(): Response
+{
+    $res = Captcha::createBase64();
+    return json(['msg'=>'ok','captcha'=>$res]);
+}
+~~~
+然后注册对应的路由来输出验证码

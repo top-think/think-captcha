@@ -178,7 +178,7 @@ class Captcha
         // 图片高(px)
         $this->imageH || $this->imageH = $this->fontSize * 2.5;
         // 建立一幅 $this->imageW x $this->imageH 的图像
-        $this->im = imagecreate($this->imageW, $this->imageH);
+        $this->im = imagecreate((int) $this->imageW, (int) $this->imageH);
         // 设置背景
         imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
 

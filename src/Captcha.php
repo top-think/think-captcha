@@ -220,7 +220,7 @@ class Captcha
 
         foreach ($text as $index => $char) {
 
-            $x     = $this->fontSize * ($index + 1) * mt_rand(1.2, 1.6) * ($this->math ? 1 : 1.5);
+            $x     = $this->fontSize * ($index + 1) * mt_rand(12, 16) / 10 * ($this->math ? 1 : 1.5);
             $y     = $this->fontSize + mt_rand(10, 20);
             $angle = $this->math ? 0 : mt_rand(-40, 40);
 

@@ -192,7 +192,7 @@ class Captcha
             $dir  = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
-                if ('.' != $file[0] && substr($file, -4) == '.ttf') {
+                if (substr($file, -4) == '.ttf' || substr($file, -4) == '.otf') {
                     $ttfs[] = $file;
                 }
             }

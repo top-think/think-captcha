@@ -59,6 +59,8 @@ class Captcha
     protected $bg = [243, 251, 254];
     //算术验证码
     protected $math = false;
+    //从 0 到 127。0 表示完全不透明，127 表示完全透明。
+    protected $alpha = 0;
 
     /**
      * 架构方法 设置参数
@@ -184,7 +186,7 @@ class Captcha
         // 建立一幅 $this->imageW x $this->imageH 的图像
         $this->im = imagecreate($this->imageW, $this->imageH);
         // 设置背景
-        imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
+        imagecolorallocatealpha($this->im, $this->bg[0], $this->bg[1], $this->bg[2], $this->alpha);
 
         // 验证码字体随机颜色
         $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));

@@ -15,9 +15,9 @@ use think\Response;
 
 /**
  * @param string $config
- * @return \think\Response
+ * @return Response|array
  */
-function captcha($config = null): Response
+function captcha($config = null)
 {
     return Captcha::create($config);
 }

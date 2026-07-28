@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.3"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, xml, json, curl, fileinfo, openssl
+          tools: composer:v2
+          coverage: none
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-version }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHP CS Fixer
+        run: composer check-style
+
+      - name: Run PHPStan
+        run: composer analyze
+
+      - name: Run test suite
+        run: composer test

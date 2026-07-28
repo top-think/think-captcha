@@ -1,32 +1,53 @@
 {
-    "name": "topthink/think-captcha",
-    "description": "captcha package for thinkphp",
-    "authors": [
-        {
-            "name": "yunwuxin",
-            "email": "448901948@qq.com"
-        }
-    ],
-    "license": "Apache-2.0",
-    "require": {
-        "topthink/framework": "^6.0|^8.0"
+  "name": "watsonhaw/think-captcha",
+  "description": "captcha package for thinkphp",
+  "authors": [
+    {
+      "name": "yunwuxin",
+      "email": "448901948@qq.com"
     },
-    "autoload": {
-        "psr-4": {
-            "think\\captcha\\": "src/"
-        },
-        "files": [
-            "src/helper.php"
-        ]
-    },
-    "extra": {
-        "think": {
-            "services": [
-                "think\\captcha\\CaptchaService"
-            ],
-            "config":{
-                "captcha": "src/config.php"
-            }            
-        }
+    {
+      "name": "watsonhaw",
+      "email": "watsonhaw@hotmailq.com"
     }
+  ],
+  "license": "Apache-2.0",
+  "require": {
+    "ext-gd": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "mockery/mockery": "^1.2",
+    "phpstan/phpstan": "^2.2",
+    "phpunit/phpunit": "^12.0",
+    "topthink/framework": "^6.0|^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "think\\captcha\\": "src/"
+    },
+    "files": [
+      "src/helper.php"
+    ]
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "think\\captcha\\CaptchaService"
+      ],
+      "config": {
+        "captcha": "src/config.php"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": "phpunit",
+    "analyze": "phpstan --no-progress --memory-limit=1G",
+    "fix-style": "php-cs-fixer fix",
+    "check-style": "php-cs-fixer fix --dry-run"
+  }
 }

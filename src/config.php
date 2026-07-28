@@ -1,43 +1,31 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | Captcha配置文件
 // +----------------------------------------------------------------------
 
 return [
     //验证码位数
-    'length'   => 5,
-    // 验证码字符集合
-    'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
-    // 验证码过期时间
-    'expire'   => 1800,
-    // 是否使用中文验证码
-    'useZh'    => false,
-    // 是否使用算术验证码
-    'math'     => false,
-    // 是否使用背景图
-    'useImgBg' => false,
-    //验证码字符大小
-    'fontSize' => 25,
-    // 是否使用混淆曲线
-    'useCurve' => true,
-    //是否添加杂点
-    'useNoise' => true,
-    // 验证码字体 不设置则随机
-    'fontttf'  => '',
-    //背景颜色
-    'bg'       => [243, 251, 254],
-    // 验证码图片高度
-    'imageH'   => 0,
-    // 验证码图片宽度
-    'imageW'   => 0,
-    // 验证码图片透明度
-    'alpha'    => 0,
-    // 是否采用API模式生成
-    'api'      => false,
-
-    // 添加额外的验证码设置
-    // verify => [
-    //     'length'=>4,
-    //    ...
-    //],
+    'length'      => 4,
+    // 字符集合（默认已剔除 0/O/1/I 等易混淆字符）
+    'codeSet'     => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
+    // 过期时间（秒）
+    'expire'      => 180,
+    // 算术验证码 (true 时 length / codeSet 忽略)
+    'math'        => false,
+    // 画干扰点
+    'useNoise'    => true,
+    // 画干扰线
+    'useCurve'    => true,
+    // 使用 assets/bgs/ 下的图片做背景（平铺拉伸到验证码尺寸，true 时忽略 bg 颜色）
+    'useImgBg'    => false,
+    // 背景色 [R, G, B]（useImgBg=false 或背景图加载失败时生效）
+    'bg'          => [243, 251, 254],
+    // 图片尺寸（填 0 则根据 fontSize 自动计算）
+    'imageH'      => 0,
+    'imageW'      => 0,
+    // 字号（px）
+    'fontSize'    => 22,
+    // 缓存键前缀（多项目共用 Redis 时改一改防冲突）
+    'cachePrefix' => 'captcha_',
 ];

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -181,7 +182,7 @@ class Captcha
 
         $generator = $this->generate();
 
-        $this->imageW || $this->imageW = $this->length * $this->fontSize * 1.5 + $this->length * $this->fontSize / 2;
+        $this->imageW || $this->imageW = $this->length   * $this->fontSize * 1.5 + $this->length * $this->fontSize / 2;
         $this->imageH || $this->imageH = $this->fontSize * 2.5;
 
         $this->imageW = (int) $this->imageW;
@@ -246,6 +247,7 @@ class Captcha
                 'img'  => 'data:image/png;base64,' . base64_encode($content),
             ];
         }
+
         // 输出验证码图片
         return response($content, 200, ['Content-Length' => strlen($content)])->contentType('image/png');
     }
@@ -291,7 +293,7 @@ class Captcha
         $A   = mt_rand(1, (int) ($this->imageH / 2)); // 振幅
         $f   = mt_rand((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
         $T   = mt_rand($this->imageH, $this->imageW * 2); // 周期
-        $w   = (2 * M_PI) / $T;
+        $w   = (2 * M_PI)                                    / $T;
         $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
         $px1 = $px2;
         $px2 = $this->imageW;
